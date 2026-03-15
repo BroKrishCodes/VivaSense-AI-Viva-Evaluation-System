@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>VivaSense | Student</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    min-height:100vh;
+}
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(8px);
+}
+
+.logo{
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+.card{
+    width:65%;
+    margin:80px auto;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+    color:#1e3c72;
+    margin-bottom:25px;
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    margin-bottom:18px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#1e3c72;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#16325c;
+}
+
+.result{
+    margin-top:20px;
+    padding:15px;
+    background:#eef3ff;
+    border-left:4px solid #1e3c72;
+    border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<div class="logo">VivaSense</div>
+<div>
+<a href="/">Home</a>
+<a href="/student">Student</a>
+<a href="/examiner">Examiner</a>
+<a href="/records">Records</a>
+</div>
+</div>
+
+<div class="card">
+
+<h2>Student Evaluation</h2>
+
+<form method="POST">
+
+<label>Name</label>
+<input type="text" name="name" required>
+
+<label>Roll Number</label>
+<input type="text" name="roll" required>
+
+{% for q in questions %}
+<h3>{{ q.question }} ({{ q.max_marks }} marks)</h3>
+<textarea name="answer_{{ loop.index0 }}" required></textarea>
+{% endfor %}
+
+<button type="submit">Submit Answers</button>
+
+</form>
+
+{% if results %}
+<hr>
+<h2>Evaluation Results</h2>
+
+{% for r in results %}
+<div class="result">
+<p><strong>{{ r.question }}</strong></p>
+<p>Similarity Score: {{ r.score }}</p>
+<p>Marks: {{ r.marks }}/{{ r.max_marks }}</p>
+</div>
+{% endfor %}
+
+<h3>Total Score: {{ total_marks }}/{{ total_max }}</h3>
+{% endif %}
+
+</div>
+
+</body>
+</html>

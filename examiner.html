@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>VivaSense | Examiner</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    min-height:100vh;
+}
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 40px;
+    background:rgba(255,255,255,0.1);
+    backdrop-filter:blur(8px);
+}
+
+.logo{
+    color:white;
+    font-size:22px;
+    font-weight:bold;
+}
+
+.navbar a{
+    color:white;
+    text-decoration:none;
+    margin-left:20px;
+}
+
+.card{
+    width:60%;
+    margin:80px auto;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 15px 30px rgba(0,0,0,0.2);
+}
+
+h2{
+    text-align:center;
+    color:#1e3c72;
+    margin-bottom:25px;
+}
+
+label{
+    font-weight:600;
+}
+
+textarea,input{
+    width:100%;
+    margin-top:8px;
+    margin-bottom:18px;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#1e3c72;
+    color:white;
+    border:none;
+    border-radius:6px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#16325c;
+}
+
+.question-list{
+    margin-top:25px;
+    background:#eef3ff;
+    padding:15px;
+    border-radius:6px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+<div class="logo">VivaSense</div>
+<div>
+<a href="/">Home</a>
+<a href="/student">Student</a>
+<a href="/examiner">Examiner</a>
+<a href="/records">Records</a>
+</div>
+</div>
+
+<div class="card">
+
+<h2>Examiner Panel</h2>
+
+<form method="POST">
+
+<label>Question</label>
+<textarea name="question" placeholder="Enter question here..." required></textarea>
+
+<label>Ideal Answer</label>
+<textarea name="ideal" placeholder="Enter ideal answer here..." required></textarea>
+
+<label>Maximum Marks</label>
+<input type="number" name="max_marks" placeholder="Enter max marks" required>
+
+<button type="submit">Add Question</button>
+
+</form>
+
+{% if questions %}
+<div class="question-list">
+<h3>Added Questions</h3>
+
+{% for q in questions %}
+<p>{{ loop.index }}. {{ q.question }} ({{ q.max_marks }} marks)</p>
+{% endfor %}
+</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>VivaSense | Records</title>
+
+<style>
+body{
+    font-family:'Segoe UI',sans-serif;
+    background:linear-gradient(135deg,#1e3c72,#2a5298);
+    padding:40px;
+}
+
+table{
+    width:80%;
+    margin:auto;
+    background:white;
+    border-collapse:collapse;
+    border-radius:8px;
+    overflow:hidden;
+}
+
+th,td{
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+th{
+    background:#1e3c72;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<h2 style="text-align:center;color:white;margin-bottom:20px;">Student Records</h2>
+
+<table>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Roll</th>
+<th>Total Marks</th>
+<th>Total Max</th>
+</tr>
+
+{% for s in students %}
+<tr>
+<td>{{ s[0] }}</td>
+<td>{{ s[1] }}</td>
+<td>{{ s[2] }}</td>
+<td>{{ s[3] }}</td>
+<td>{{ s[4] }}</td>
+</tr>
+{% endfor %}
+</table>
+
+</body>
+</html>
