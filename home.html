@@ -1,36 +1,72 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>VivaSense | Home</title>
+<title>VivaSense</title>
+
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Segoe UI',sans-serif;background:linear-gradient(135deg,#1e3c72,#2a5298);min-height:100vh;}
-.navbar{display:flex;justify-content:space-between;align-items:center;padding:15px 40px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);}
-.logo{color:white;font-size:22px;font-weight:bold;}
-.nav-links a{color:white;text-decoration:none;margin-left:25px;}
-.hero{text-align:center;margin-top:120px;color:white;}
-.hero h1{font-size:45px;margin-bottom:20px;}
-.hero p{font-size:18px;opacity:0.9;}
-.btn{display:inline-block;margin-top:30px;padding:12px 25px;background:white;color:#1e3c72;border-radius:8px;text-decoration:none;font-weight:600;}
-.btn:hover{background:#f1f1f1;}
+body {
+    margin:0;
+    font-family: 'Segoe UI';
+    background: linear-gradient(to right, #2b4c7e, #3b5998);
+}
+
+/* Navbar */
+.navbar {
+    background:#2b4c7e;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    color:white;
+}
+
+.navbar a {
+    color:white;
+    margin-left:20px;
+    text-decoration:none;
+}
+
+/* Card */
+.container {
+    width:40%;
+    margin:80px auto;
+    background:#e6e6e6;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+}
+
+/* Button */
+button {
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    background:#2b4c7e;
+    color:white;
+    border:none;
+    border-radius:5px;
+}
 </style>
+
 </head>
+
 <body>
 
 <div class="navbar">
-<div class="logo">VivaSense</div>
-<div class="nav-links">
-<a href="/">Home</a>
-<a href="/student">Student</a>
-<a href="/examiner">Examiner</a>
-<a href="/test">Test</a>
-</div>
+    <div><b>VivaSense</b></div>
+    <div>
+        <a href="/">Home</a>
+        <a href="/student">Student</a>
+        <a href="/examiner">Examiner</a>
+        <a href="/records">Records</a>
+    </div>
 </div>
 
-<div class="hero">
-<h1>Smart & Fair Viva Evaluation</h1>
-<p>AI-Assisted Text-Based Viva Evaluation System</p>
-<a href="/student" class="btn">Start Evaluation</a>
+<div class="container">
+    <h2>Welcome to VivaSense</h2>
+
+    <a href="/examiner"><button>Examiner Panel</button></a>
+    <a href="/student"><button>Student Panel</button></a>
+    <a href="/records"><button>View Records</button></a>
 </div>
 
 </body>
