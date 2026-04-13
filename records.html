@@ -1,60 +1,125 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>VivaSense | Records</title>
+<title>Records</title>
 
 <style>
-body{
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
-    padding:40px;
+body {
+    margin:0;
+    font-family: 'Segoe UI';
+    background: linear-gradient(to right, #2b4c7e, #3b5998);
 }
 
-table{
-    width:80%;
-    margin:auto;
-    background:white;
-    border-collapse:collapse;
-    border-radius:8px;
-    overflow:hidden;
-}
-
-th,td{
-    padding:12px;
-    text-align:center;
-    border-bottom:1px solid #ddd;
-}
-
-th{
-    background:#1e3c72;
+.navbar {
+    background:#2b4c7e;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
     color:white;
 }
+
+.navbar a {
+    color:white;
+    margin-left:20px;
+    text-decoration:none;
+}
+
+.container {
+    width:900px;
+    margin:80px auto;
+    background:#e6e6e6;
+    padding:40px;
+    border-radius:12px;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+}
+
+th {
+    background:#2b4c7e;
+    color:white;
+    padding:12px;
+}
+
+td {
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ccc;
+}
+
+tr:hover {
+    background:#dcdcdc;
+}
+
+button {
+    background:red;
+    color:white;
+    border:none;
+    padding:8px 12px;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+h2 {
+    text-align:center;
+}
 </style>
+
 </head>
 
 <body>
 
-<h2 style="text-align:center;color:white;margin-bottom:20px;">Student Records</h2>
+<div class="navbar">
+    <div><b>VivaSense</b></div>
+    <div>
+        <a href="/">Home</a>
+        <a href="/student">Student</a>
+        <a href="/examiner">Examiner</a>
+        <a href="/records">Records</a>
+    </div>
+</div>
+
+<div class="container">
+
+<h2>Student Records</h2>
+
+{% if students %}
+    {% set topper = students | max(attribute='percentage') %}
+{% endif %}
 
 <table>
 <tr>
-<th>ID</th>
-<th>Name</th>
-<th>Roll</th>
-<th>Total Marks</th>
-<th>Total Max</th>
+    <th>Name</th>
+    <th>Roll</th>
+    <th>Marks</th>
+    <th>Action</th>
 </tr>
 
 {% for s in students %}
-<tr>
-<td>{{ s[0] }}</td>
-<td>{{ s[1] }}</td>
-<td>{{ s[2] }}</td>
-<td>{{ s[3] }}</td>
-<td>{{ s[4] }}</td>
+<tr {% if students and s.percentage == topper.percentage %} style="background: lightgreen;" {% endif %}>
+
+    <td>{{ s.name }}</td>
+    <td>{{ s.roll }}</td>
+
+    <td>
+        {{ s.marks }}/{{ s.max }}
+        ({{ s.percentage }}%)
+    </td>
+
+    <td>
+        <a href="/delete_record/{{ s.id }}" onclick="return confirm('Delete this record?')">
+            <button>Delete</button>
+        </a>
+    </td>
+
 </tr>
 {% endfor %}
+
 </table>
+
+</div>
 
 </body>
 </html>
