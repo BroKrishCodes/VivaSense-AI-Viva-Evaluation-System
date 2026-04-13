@@ -1,130 +1,146 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>VivaSense | Examiner</title>
+<title>Examiner</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
-    min-height:100vh;
+body {
+    margin:0;
+    font-family: 'Segoe UI';
+    background: linear-gradient(to right, #2b4c7e, #3b5998);
 }
 
-.navbar{
+/* Navbar */
+.navbar {
+    background:#2b4c7e;
+    padding:15px;
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    padding:15px 40px;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(8px);
+    color:white;
 }
 
-.logo{
+.navbar a {
     color:white;
-    font-size:22px;
-    font-weight:bold;
-}
-
-.navbar a{
-    color:white;
-    text-decoration:none;
     margin-left:20px;
+    text-decoration:none;
 }
 
-.card{
-    width:60%;
-    margin:80px auto;
-    background:white;
-    padding:30px;
+/* CARD */
+.container {
+    width:700px;
+    margin:60px auto;
+    background:#e6e6e6;
+    padding:40px;
     border-radius:12px;
-    box-shadow:0 15px 30px rgba(0,0,0,0.2);
-}
-
-h2{
     text-align:center;
-    color:#1e3c72;
-    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
-label{
-    font-weight:600;
-}
-
-textarea,input{
+/* Inputs */
+input, textarea {
     width:100%;
-    margin-top:8px;
-    margin-bottom:18px;
-    padding:10px;
+    padding:12px;
+    margin:12px 0;
     border-radius:6px;
     border:1px solid #ccc;
 }
 
-button{
+/* Buttons */
+button {
     width:100%;
-    padding:12px;
-    background:#1e3c72;
+    padding:14px;
+    margin-top:10px;
+    background:#2b4c7e;
     color:white;
     border:none;
     border-radius:6px;
-    font-size:16px;
     cursor:pointer;
 }
 
-button:hover{
-    background:#16325c;
+button:hover {
+    background:#1d3557;
 }
 
-.question-list{
+/* Table */
+table {
+    width:100%;
     margin-top:25px;
-    background:#eef3ff;
-    padding:15px;
-    border-radius:6px;
+    border-collapse:collapse;
+}
+
+th {
+    background:#2b4c7e;
+    color:white;
+    padding:10px;
+}
+
+td {
+    padding:10px;
+    border-bottom:1px solid #ccc;
+}
+
+/* Delete Button */
+.delete-btn {
+    background:red;
+}
+
+.delete-btn:hover {
+    background:darkred;
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="navbar">
-<div class="logo">VivaSense</div>
-<div>
-<a href="/">Home</a>
-<a href="/student">Student</a>
-<a href="/examiner">Examiner</a>
-<a href="/records">Records</a>
-</div>
+    <div><b>VivaSense</b></div>
+    <div>
+        <a href="/">Home</a>
+        <a href="/student">Student</a>
+        <a href="/examiner">Examiner</a>
+        <a href="/records">Records</a>
+    </div>
 </div>
 
-<div class="card">
+<div class="container">
 
 <h2>Examiner Panel</h2>
 
+<!-- ADD QUESTION -->
 <form method="POST">
+    <input type="text" name="test_id" placeholder="Test ID" required>
 
-<label>Question</label>
-<textarea name="question" placeholder="Enter question here..." required></textarea>
+    <textarea name="question" placeholder="Enter question" required></textarea>
 
-<label>Ideal Answer</label>
-<textarea name="ideal" placeholder="Enter ideal answer here..." required></textarea>
+    <textarea name="ideal" placeholder="Ideal answer" required></textarea>
 
-<label>Maximum Marks</label>
-<input type="number" name="max_marks" placeholder="Enter max marks" required>
+    <input type="number" name="max_marks" placeholder="Marks" required>
 
-<button type="submit">Add Question</button>
-
+    <button>Add Question</button>
 </form>
 
-{% if questions %}
-<div class="question-list">
-<h3>Added Questions</h3>
+<!-- TEST LIST -->
+<h3>All Tests</h3>
 
-{% for q in questions %}
-<p>{{ loop.index }}. {{ q.question }} ({{ q.max_marks }} marks)</p>
+<table>
+<tr>
+    <th>Test ID</th>
+    <th>Action</th>
+</tr>
+
+{% for t in tests %}
+<tr>
+    <td>{{ t[0] }}</td>
+    <td>
+        <a href="/delete_test/{{ t[0] }}" onclick="return confirm('Delete this test?')">
+            <button class="delete-btn">Delete</button>
+        </a>
+    </td>
+</tr>
 {% endfor %}
-</div>
-{% endif %}
+
+</table>
 
 </div>
 
