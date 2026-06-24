@@ -1,136 +1,153 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>VivaSense | Student</title>
+<title>Student</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
-
-body{
-    font-family:'Segoe UI',sans-serif;
-    background:linear-gradient(135deg,#1e3c72,#2a5298);
-    min-height:100vh;
+body {
+    margin:0;
+    font-family: 'Segoe UI';
+    background: linear-gradient(to right, #2b4c7e, #3b5998);
 }
 
-.navbar{
+.navbar {
+    background:#2b4c7e;
+    padding:15px;
     display:flex;
     justify-content:space-between;
-    align-items:center;
-    padding:15px 40px;
-    background:rgba(255,255,255,0.1);
-    backdrop-filter:blur(8px);
+    color:white;
 }
 
-.logo{
+.navbar a {
     color:white;
-    font-size:22px;
-    font-weight:bold;
-}
-
-.navbar a{
-    color:white;
-    text-decoration:none;
     margin-left:20px;
+    text-decoration:none;
 }
 
-.card{
-    width:65%;
+.container {
+    width:700px;
     margin:80px auto;
-    background:white;
-    padding:30px;
+    background:#e6e6e6;
+    padding:40px;
     border-radius:12px;
-    box-shadow:0 15px 30px rgba(0,0,0,0.2);
-}
-
-h2{
     text-align:center;
-    color:#1e3c72;
-    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.2);
 }
 
-input, textarea{
+input, select {
     width:100%;
-    padding:10px;
-    margin-top:8px;
-    margin-bottom:18px;
+    padding:12px;
+    margin:10px 0;
     border-radius:6px;
     border:1px solid #ccc;
 }
 
-button{
+button {
     width:100%;
-    padding:12px;
-    background:#1e3c72;
+    padding:14px;
+    margin-top:10px;
+    background:#2b4c7e;
     color:white;
     border:none;
     border-radius:6px;
-    font-size:16px;
     cursor:pointer;
 }
 
-button:hover{
-    background:#16325c;
+button:hover {
+    background:#1d3557;
 }
 
-.result{
-    margin-top:20px;
-    padding:15px;
-    background:#eef3ff;
-    border-left:4px solid #1e3c72;
-    border-radius:6px;
+.voice-btn {
+    background:green;
+    margin-bottom:10px;
 }
 </style>
+
 </head>
 
 <body>
 
 <div class="navbar">
-<div class="logo">VivaSense</div>
-<div>
-<a href="/">Home</a>
-<a href="/student">Student</a>
-<a href="/examiner">Examiner</a>
-<a href="/records">Records</a>
+    <div><b>VivaSense</b></div>
+    <div>
+        <a href="/">Home</a>
+        <a href="/student">Student</a>
+        <a href="/examiner">Examiner</a>
+        <a href="/records">Records</a>
+    </div>
 </div>
-</div>
 
-<div class="card">
+<div class="container">
 
-<h2>Student Evaluation</h2>
+<h2>Student Panel</h2>
 
+<!-- LOAD TEST FORM -->
 <form method="POST">
+    <input type="text" name="name" placeholder="Name" required>
+    <input type="text" name="roll" placeholder="Roll Number" required>
 
-<label>Name</label>
-<input type="text" name="name" required>
+    <select name="test_id" required>
+        <option value="">Select Test</option>
+        {% for t in tests %}
+        <option value="{{ t[0] }}">{{ t[0] }}</option>
+        {% endfor %}
+    </select>
 
-<label>Roll Number</label>
-<input type="text" name="roll" required>
-
-{% for q in questions %}
-<h3>{{ q.question }} ({{ q.max_marks }} marks)</h3>
-<textarea name="answer_{{ loop.index0 }}" required></textarea>
-{% endfor %}
-
-<button type="submit">Submit Answers</button>
-
+    <button name="action" value="load">Load Test</button>
 </form>
 
-{% if results %}
 <hr>
-<h2>Evaluation Results</h2>
+
+<!-- QUESTIONS -->
+{% if questions %}
+<form method="POST">
+    <input type="hidden" name="name" value="{{ name }}">
+    <input type="hidden" name="roll" value="{{ roll }}">
+    <input type="hidden" name="test_id" value="{{ test_id }}">
+
+    {% for q in questions %}
+        <p><b>{{ q.question }}</b></p>
+
+        <button type="button" class="voice-btn" onclick="startVoice({{ loop.index0 }})">
+            🎤 Speak Answer
+        </button>
+
+        <input type="text" name="answer_{{ loop.index0 }}" required>
+    {% endfor %}
+
+    <button name="action" value="submit">Submit Answers</button>
+</form>
+{% endif %}
+
+<hr>
+
+<!-- RESULTS -->
+{% if results %}
+<h3>Results</h3>
 
 {% for r in results %}
-<div class="result">
-<p><strong>{{ r.question }}</strong></p>
-<p>Similarity Score: {{ r.score }}</p>
-<p>Marks: {{ r.marks }}/{{ r.max_marks }}</p>
-</div>
+<p>{{ r.question }} → {{ r.marks }}/{{ r.max_marks }}</p>
 {% endfor %}
 
-<h3>Total Score: {{ total_marks }}/{{ total_max }}</h3>
+<h2>Total: {{ total_marks }}/{{ total_max }}</h2>
+<h2 style="color:green;">Grade: {{ grade }}</h2>
 {% endif %}
 
 </div>
+
+<script>
+function startVoice(index) {
+    let recognition = new webkitSpeechRecognition();
+    recognition.lang = "en-US";
+
+    recognition.onresult = function(event) {
+        document.getElementsByName("answer_" + index)[0].value =
+            event.results[0][0].transcript;
+    };
+
+    recognition.start();
+}
+</script>
 
 </body>
 </html>
